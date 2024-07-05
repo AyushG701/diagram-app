@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const getUser = query({
   args: {
@@ -8,7 +8,20 @@ export const getUser = query({
   handler: async (ctx, args) => {
     const result = await ctx.db
       .query("users")
-      .filter({ email: args.email })
-      .first();
+      .filter((q) => q.eq(q.field("email"), args.email))
+      .collect();
+    return result;
+  },
+});
+
+// mutaiton is used to make crude opeartion
+export const createUser = mutation({
+  args: {
+    name: v.string(),
+    email: v.string(),
+    image: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("user", args);
   },
 });
