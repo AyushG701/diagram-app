@@ -10,13 +10,12 @@ import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 function Dashboard() {
-  const { user }: any = useKindeBrowserClient();
-  const getUser = useQuery(api.user.getUser, { email: user?.email });
-  const createUser = useMutation(api.user.createUser);
   const convex = useConvex();
+  const { user }: any = useKindeBrowserClient();
+  // const getUser =await useQuery(api.user.getUser, { email: user?.email });
+  const createUser = useMutation(api.user.createUser);
   useEffect(() => {
     if (user) {
-      console.log(getUser);
       checkUser();
     }
     console.log("Dashboard");
