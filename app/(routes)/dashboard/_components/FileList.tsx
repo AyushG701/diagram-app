@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Archive, MoreHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 export interface FILE {
   archive: boolean;
   createdBt: string;
@@ -26,6 +27,7 @@ function FileList() {
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const { user }: any = useKindeBrowserClient();
+  const router = useRouter();
   useEffect(() => {
     fileList_ && setFileList(fileList_);
     console.log(fileList_);
@@ -54,7 +56,11 @@ function FileList() {
           <tbody className="divide-y divide-gray-200">
             {fileList &&
               fileList.map((file: FILE, index: number) => (
-                <tr key={index} className="odd:bg-gray-50">
+                <tr
+                  key={index}
+                  className="odd:bg-gray-50 cursor-pointer"
+                  onClick={() => router.push("/workspace/" + file._id)}
+                >
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     {file.fileName}
                   </td>
