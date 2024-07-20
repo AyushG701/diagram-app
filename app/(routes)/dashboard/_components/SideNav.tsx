@@ -8,17 +8,19 @@ import { useConvex, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { FileListContext } from "@/app/_context/FilesListContext";
+// import { FileListContext } from "@/app/_context/FilesListContext";
 
 function SideNav() {
   const { user }: any = useKindeBrowserClient();
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<TEAM | any>();
   const convex = useConvex();
-  const [totalFiles, setTotalFiles] = useState<Number>();
+  const [totalFiles, setTotalFiles] = useState<Number>(1);
   const { fileList_, setFileList_ } = useContext(FileListContext);
   useEffect(() => {
     activeTeam && getFiles();
   }, [activeTeam]);
+
   const onFileCreate = (fileName: string) => {
     console.log(fileName);
     createFile({
@@ -45,6 +47,7 @@ function SideNav() {
     const result = await convex.query(api.files.getFiles, {
       teamId: activeTeam?._id,
     });
+
     console.log(result);
     setFileList_(result);
     setTotalFiles(result?.length);

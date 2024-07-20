@@ -13,9 +13,9 @@ export default function Home() {
     console.log("--", user);
   }, [user]);
   return (
-    <div>
+    <>
       <Header />
       <Hero />
-    </div>
+    </>
   );
 }

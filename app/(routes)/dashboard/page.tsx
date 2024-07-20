@@ -8,6 +8,8 @@ import {
 import React, { useEffect } from "react";
 import { useConvex, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Header from "./_components/Header";
+import FileList from "./_components/FileList";
 
 function Dashboard() {
   const convex = useConvex();
@@ -35,10 +37,11 @@ function Dashboard() {
   };
   return (
     <div>
-      Dashboard
+      <Header />
       <Button>
         <LogoutLink>Logout</LogoutLink>
       </Button>
+      <FileList />
     </div>
   );
 }
