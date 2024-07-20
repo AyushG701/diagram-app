@@ -13,6 +13,10 @@ import Checklist from "@editorjs/checklist";
 import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
 import Warning from "@editorjs/warning";
+import { FILE } from "../../dashboard/_components/FileList";
+import { api } from "@/convex/_generated/api";
+import { useMutation } from "convex/react";
+import { toast } from "sonner";
 
 // or if you inject ImageTool via standalone script
 // const ImageTool = window.ImageTool;
@@ -39,19 +43,33 @@ const rawDocument = {
   version: "2.8.1",
 };
 
-const Editor = () => {
+const Editor = ({
+  onSaveTrigger,
+  fileId,
+  fileData,
+}: {
+  onSaveTrigger: any;
+  fileId: any;
+  fileData: FILE;
+}) => {
   const ref = useRef<EditorJS>();
+  const updateDocument = useMutation(api.files.updateDocument);
   const [document, setDocument] = useState(rawDocument);
   useEffect(() => {
-    initEditor();
-  });
+    fileData && initEditor();
+  }, [fileData]);
+
+  useEffect(() => {
+    console.log("triiger Value:", onSaveTrigger);
+    onSaveTrigger && onSaveDocument();
+  }, [onSaveTrigger]);
   const initEditor = () => {
     const editor = new EditorJS({
       /**
        * Id of Element that should contain Editor instance
        */
       holder: "editorjs",
-      data: rawDocument,
+      data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
 
       tools: {
         header: {
@@ -87,6 +105,30 @@ const Editor = () => {
       },
     });
     ref.current = editor;
+  };
+  const onSaveDocument = () => {
+    if (ref.current) {
+      ref.current
+        .save()
+        .then((outputData) => {
+          console.log("Article data: ", outputData);
+          updateDocument({
+            _id: fileId,
+            document: JSON.stringify(outputData),
+          }).then(
+            (resp) => {
+              toast.success("Document Updated!");
+              console.log("document updated");
+            },
+            (e) => {
+              toast("Server Error!");
+            },
+          );
+        })
+        .catch((error) => {
+          console.log("Saving failed: ", error);
+        });
+    }
   };
   return (
     <div>
