@@ -5,6 +5,8 @@ import Editor from "../_components/Editor";
 import { useConvex } from "convex/react";
 import { FILE } from "../../dashboard/_components/FileList";
 import { api } from "@/convex/_generated/api";
+import ExcalidrawWrapper from "../_components/ExcalidrawWrapper";
+import Canvas from "../_components/Canvas";
 
 const Workspace = ({ params }: any) => {
   const [triggerSave, setTriggerSave] = useState(false);
@@ -45,6 +47,8 @@ const Workspace = ({ params }: any) => {
             fileId={params.fileId}
             fileData={fileData}
           /> */}
+          <Canvas />
+          {/* <ExcalidrawWrapper /> */}
         </div>
       </div>
     </div>
