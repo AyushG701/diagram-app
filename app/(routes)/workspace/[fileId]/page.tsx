@@ -5,7 +5,7 @@ import Editor from "../_components/Editor";
 import { useConvex } from "convex/react";
 import { FILE } from "../../dashboard/_components/FileList";
 import { api } from "@/convex/_generated/api";
-import ExcalidrawWrapper from "../_components/ExcalidrawWrapper";
+
 import Canvas from "../_components/Canvas";
 
 const Workspace = ({ params }: any) => {
@@ -42,13 +42,11 @@ const Workspace = ({ params }: any) => {
         </div>
         {/* Whiteboard/canvas  */}
         <div className=" h-screen border-l">
-          {/* <Canvas
+          <Canvas
             onSaveTrigger={triggerSave}
             fileId={params.fileId}
             fileData={fileData}
-          /> */}
-          <Canvas />
-          {/* <ExcalidrawWrapper /> */}
+          />
         </div>
       </div>
     </div>

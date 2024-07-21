@@ -16,7 +16,7 @@ import Warning from "@editorjs/warning";
 import { FILE } from "../../dashboard/_components/FileList";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 // or if you inject ImageTool via standalone script
 // const ImageTool = window.ImageTool;
@@ -88,6 +88,7 @@ const Editor = ({
           },
         },
         image: {
+          //@ts-ignore
           class: ImageTool,
           config: {
             endpoints: {
@@ -132,6 +133,7 @@ const Editor = ({
   };
   return (
     <div>
+      <Toaster position="bottom-right" />
       <div id="editorjs" className=" ml-20"></div>
     </div>
   );
